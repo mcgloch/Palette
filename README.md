@@ -9,5 +9,4 @@ Examples
 ========
 
 ![alt tag](http://fiskur.eu/apps/palette/1415116164.png)&nbsp;![alt tag](http://fiskur.eu/apps/palette/1415116105.png)
-
 ![alt tag](http://fiskur.eu/apps/palette/1415116083.png)&nbsp;![alt tag](http://fiskur.eu/apps/palette/1415115992.png)
