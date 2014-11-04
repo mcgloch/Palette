@@ -21,9 +21,15 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	private static final int ACTION_GALLERY = 100;
+	
 	private static final int MODE_MUTED = 1;
 	private static final int MODE_VIBRANT = 2;
 	private int mMode = MODE_MUTED;
+	
+	private static final int LIGHT_MODE_BRIGHT = 1;
+	private static final int LIGHT_MODE_DARK = 2;
+	private int mLightMode = LIGHT_MODE_DARK;
+	
 	private Uri mUri;
 	private String mImagePath;
 	private ImageView mImageView;
@@ -92,12 +98,24 @@ public class MainActivity extends Activity {
     		
     		switch(mMode){
 	    		case MODE_MUTED:
-	    			backgroundSwatch = mPalette.getDarkMutedSwatch();
-	    			foregroundSwatch = mPalette.getLightMutedSwatch();
+	    			if(mLightMode == LIGHT_MODE_BRIGHT){
+		    			backgroundSwatch = mPalette.getLightMutedSwatch();
+		    			foregroundSwatch = mPalette.getDarkMutedSwatch();
+	    			}else{
+		    			backgroundSwatch = mPalette.getDarkMutedSwatch();
+		    			foregroundSwatch = mPalette.getLightMutedSwatch();
+	    			}
+
 	    			break;	
 	    		case MODE_VIBRANT:
-	    			backgroundSwatch = mPalette.getDarkVibrantSwatch();
-	    			foregroundSwatch = mPalette.getLightVibrantSwatch();
+	    			if(mLightMode == LIGHT_MODE_BRIGHT){
+		    			backgroundSwatch = mPalette.getLightVibrantSwatch();
+		    			foregroundSwatch = mPalette.getDarkVibrantSwatch();
+	    			}else{
+		    			backgroundSwatch = mPalette.getDarkVibrantSwatch();
+		    			foregroundSwatch = mPalette.getLightVibrantSwatch();
+	    			}
+
 	    			break;
     		}
     		
@@ -158,6 +176,15 @@ public class MainActivity extends Activity {
     		}else{
     			mMode = MODE_MUTED;
     			item.setTitle("Muted");
+    		}
+    		applyPalette();
+    	}else if(item.getItemId() == R.id.change_light_mode){
+    		if(mLightMode == LIGHT_MODE_BRIGHT){
+    			mLightMode = LIGHT_MODE_DARK;
+    			item.setTitle("Dark");
+    		}else{
+    			mLightMode = LIGHT_MODE_BRIGHT;
+    			item.setTitle("Light");
     		}
     		applyPalette();
     	}

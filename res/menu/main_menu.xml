@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <item 
+        android:id="@+id/change_light_mode" 
+        android:title="Dark"
+        android:orderInCategory="5"
+        android:showAsAction="always" />
+    
+    <item 
         android:id="@+id/change_mode" 
         android:title="Muted"
         android:orderInCategory="10"
