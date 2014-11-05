@@ -8,5 +8,10 @@ Download: http://fiskur.eu/apps/palette/com_fiskur_palette.apk
 Examples
 ========
 
-![alt tag](http://fiskur.eu/apps/palette/1415116164.png)&nbsp;![alt tag](http://fiskur.eu/apps/palette/1415116105.png)
-![alt tag](http://fiskur.eu/apps/palette/1415116083.png)&nbsp;![alt tag](http://fiskur.eu/apps/palette/1415115992.png)
+![alt tag](http://fiskur.eu/apps/palette/1415183596.png)&nbsp;![alt tag](http://fiskur.eu/apps/palette/1415183618.png)
+![alt tag](http://fiskur.eu/apps/palette/1415183634.png)&nbsp;![alt tag](http://fiskur.eu/apps/palette/1415183662.png)
+
+Muted & Vibrant variants with light/dark switched
+=================================================
+
+![alt tag](http://fiskur.eu/apps/palette/1415183802.png)![alt tag](http://fiskur.eu/apps/palette/1415183816.png)![alt tag](http://fiskur.eu/apps/palette/1415183822.png)![alt tag](http://fiskur.eu/apps/palette/1415183828.png)
