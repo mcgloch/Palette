@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.graphics.Palette.Swatch;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,14 +32,22 @@ public class MainActivity extends Activity {
 	private int mLightMode = LIGHT_MODE_DARK;
 	
 	private Uri mUri;
-	private String mImagePath;
 	private ImageView mImageView;
 	private Palette mPalette = null;
+	
+	private int mBackgroundColor = -1;
+	
+	private MenuItem brightnessMenuItem;
+	private MenuItem vibrantMenuItem;
+	private MenuItem chooseMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        getActionBar().setTitle("");
+        getActionBar().setIcon(android.R.color.transparent);
         
         mImageView = ImageView.class.cast(findViewById(R.id.palette_image_view));
         
@@ -58,7 +67,6 @@ public class MainActivity extends Activity {
 			if (resultCode == RESULT_OK && data != null) {
 				
 				mUri = data.getData();
-				mImagePath = PhotoHelper.getRealPathFromURI(MainActivity.this, mUri);
 				
 				PhotoHelper.uriToBitmap(MainActivity.this, mUri, new UriToBitmapObserver() {
 					
@@ -120,34 +128,42 @@ public class MainActivity extends Activity {
     		}
     		
     		if(backgroundSwatch != null){
-    			int backgroundColor = backgroundSwatch.getRgb();
-    			backgroundColorLabel.setTextColor(lighten(backgroundColor));
-    			backgroundColorLabel.setText(getColorLabel(backgroundSwatch.getRgb()));
+    			mBackgroundColor = backgroundSwatch.getRgb();
+    			updateMenuIcons();
+    			backgroundColorLabel.setTextColor(lighten(mBackgroundColor));
+    			backgroundColorLabel.setText(getColorLabel(true, backgroundSwatch.getRgb()));
     			getActionBar().setBackgroundDrawable(new ColorDrawable(backgroundSwatch.getRgb()));
     			mTextContainer.setBackgroundColor(backgroundSwatch.getRgb()); 
     		}else{
+    			mBackgroundColor = getResources().getColor(R.color.default_background);
     			backgroundColorLabel.setTextColor(getResources().getColor(R.color.white));
-    			backgroundColorLabel.setText("null");
-    			getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.default_background)));
+    			backgroundColorLabel.setText("n/a");
+    			getActionBar().setBackgroundDrawable(new ColorDrawable(mBackgroundColor));
+    			updateMenuIcons();
     			mTextContainer.setBackgroundColor(getResources().getColor(R.color.default_background)); 
     		}
 	        
 	        if(foregroundSwatch != null){
-	        	titleView.setText(getColorLabel(foregroundSwatch.getRgb()));
+	        	titleView.setText(getColorLabel(true, foregroundSwatch.getRgb()));
 	        	titleView.setTextColor(foregroundSwatch.getRgb());
 	        }else{
-	        	titleView.setText(getColorLabel(getResources().getColor(R.color.white)));
+	        	titleView.setText(getColorLabel(true, getResources().getColor(R.color.white)));
+	        	titleView.setText("n/a");
 	        	titleView.setTextColor(getResources().getColor(R.color.white));
 	        }
     	}
     }
     
-    private String getColorLabel(int color){
+    
+    
+    private String getColorLabel(boolean prefix, int color){
     	String label = Integer.toHexString(color);
     	if(label.startsWith("ff") && label.length() == 8){
     		label = label.substring(2, label.length());
     	}
-    	label = "0x" + label;
+    	if(prefix){
+    		label = "0x" + label;
+    	}
     	return label;
     }
     
@@ -162,7 +178,34 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+    	brightnessMenuItem = menu.findItem(R.id.change_light_mode);
+    	vibrantMenuItem = menu.findItem(R.id.change_mode);
+    	chooseMenuItem = menu.findItem(R.id.choose_image);
+        updateMenuIcons();
         return true;
+    }
+    
+    private void updateMenuIcons(){
+
+    	int r = (mBackgroundColor >> 16) & 0xFF;
+    	int g = (mBackgroundColor >> 8) & 0xFF;
+    	int b = (mBackgroundColor >> 0) & 0xFF;
+    	
+    	int brightness = (int) (r*0.299 + g*0.587 + b*0.114);
+    	
+    	l("Brightness: " + brightness);
+    	
+    	if (brightness > 100){
+    		l("Use dark icons");
+    		brightnessMenuItem.setIcon(getResources().getDrawable(R.drawable.ic_action_brightness));
+    		vibrantMenuItem.setIcon(getResources().getDrawable(R.drawable.ic_action_palette));
+    		chooseMenuItem.setIcon(getResources().getDrawable(R.drawable.ic_action_choose));
+		} else{ 
+			l("Use light icons");
+			brightnessMenuItem.setIcon(getResources().getDrawable(R.drawable.ic_action_brightness_white));
+			vibrantMenuItem.setIcon(getResources().getDrawable(R.drawable.ic_action_palette_white));
+			chooseMenuItem.setIcon(getResources().getDrawable(R.drawable.ic_action_choose_white));
+    	}
     }
     
     @Override
