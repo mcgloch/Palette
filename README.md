@@ -3,7 +3,7 @@ Palette
 
 Just a quick app to show off the new Palette API in Android
 
-Download: http://fiskur.eu/apps/palette/com_fiskur_palette.apk
+Not tested on anyting but a 2014 MotoX but you can download it here: http://fiskur.eu/apps/palette/com_fiskur_palette.apk
 
 Examples
 ========
